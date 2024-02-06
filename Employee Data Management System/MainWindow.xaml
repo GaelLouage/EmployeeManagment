@@ -26,6 +26,14 @@
         </Grid.RowDefinitions>
 
         <Button x:Name="btnOpenCsv" Content="Open File" Grid.Column="1" Grid.Row="1" Click="btnOpenCsv_Click" />
+        <TextBox x:Name="txtSearchEmployee" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" TextChanged="txtSearchEmployee_TextChanged" Margin="10 0 10 0"/>
+        <ComboBox />
+        <ComboBox x:Name="cmbOrderEmployee" Grid.Column="4" Grid.Row="1" SelectionChanged="cmbOrderEmployee_SelectionChanged">
+            <ComboBoxItem>First Name</ComboBoxItem>
+            <ComboBoxItem>Age</ComboBoxItem>
+            <ComboBoxItem>Department</ComboBoxItem>
+            <ComboBoxItem>Salary</ComboBoxItem>
+        </ComboBox>
         <ListView x:Name="lvEmployees"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="0 10 0 10">
 
         <ListView.View>
@@ -33,19 +41,10 @@
             <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
                 <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="First Name" Width="200"/>
 
-                <GridViewColumn DisplayMemberBinding="{Binding Age}" Width="200">
-                    <GridViewColumnHeader>Last Name
-                        <GridViewColumnHeader.ContextMenu>
-                            <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
-                                <MenuItem Header="Ascending" />
-                                <MenuItem Header="Descending" />
-                            </ContextMenu>
-                        </GridViewColumnHeader.ContextMenu>
-                    </GridViewColumnHeader>
-                </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Age}" Width="200" Header="Age"/>
 
-                <GridViewColumn DisplayMemberBinding="{Binding Department}" Header="Employee No." Width="200"/>
-                <GridViewColumn DisplayMemberBinding="{Binding Salary}" Header="Employee No." Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Department}" Header="Department" Width="200"/>
+                <GridViewColumn DisplayMemberBinding="{Binding Salary}" Header="Salary" Width="200"/>
             </GridView>
 
         </ListView.View>

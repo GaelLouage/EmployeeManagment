@@ -5,6 +5,7 @@ using Employee_Data_Management_System.Factory.Classes;
 using Employee_Data_Management_System.Helpers;
 using Employee_Data_Management_System.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace Employee_Data_Management_System
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+        private List<EmployeeEntity> _employees = new List<EmployeeEntity>();
         public MainWindow()
         {
             InitializeComponent();
@@ -45,16 +46,18 @@ namespace Employee_Data_Management_System
             {
                 lvEmployees.ItemsSource = null;
                 lvEmployees.Items.Clear();
-
+                _employees = new List<EmployeeEntity>();
 
                 // Create OpenFileDialog
                 var openFileDlg = FileDialog.Open();
+                if (openFileDlg is null) return;
                 var fileName = openFileDlg.FileName;
                 var fileExtention = fileName.GetFileExtension();
                 var fileExtensionsDictionary = FileExtensionsDictionary.Dictionary;
                 if (fileExtensionsDictionary.ContainsKey(fileExtention))
                 {
-                    lvEmployees.ItemsSource = await fileExtensionsDictionary[fileExtention](openFileDlg);
+                    _employees = await fileExtensionsDictionary[fileExtention](openFileDlg);
+                    lvEmployees.ItemsSource = _employees;
                 }
             }
             catch (Exception ex)
@@ -64,5 +67,22 @@ namespace Employee_Data_Management_System
             }
            
         }
+
+        private void txtSearchEmployee_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            lvEmployees.ItemsSource = _employees;
+            if (_employees is not null &&  _employees.Count > 0 )
+            {
+                lvEmployees.ItemsSource = _employees.Where(x => x.Name.ToLower().Contains(txtSearchEmployee.Text.ToLower())).ToList();
+            }
+        }
+        private void cmbOrderEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var search = txtSearchEmployee.Text;
+            string orderedChoice = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+            _employees = _employees.Sort(search, orderedChoice);
+            lvEmployees.ItemsSource = _employees;
+        }
+      
     }
 }

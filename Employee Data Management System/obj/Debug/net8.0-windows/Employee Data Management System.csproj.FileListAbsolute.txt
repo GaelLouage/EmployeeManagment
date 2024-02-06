@@ -18,3 +18,4 @@ C:\Users\louag\source\repos\Employee Data Management System\Employee Data Manage
 C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.pdb
 C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.genruntimeconfig.cache
 C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\ref\Employee Data Management System.dll
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.sourcelink.json

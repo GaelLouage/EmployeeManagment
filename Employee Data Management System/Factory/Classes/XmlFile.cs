@@ -44,7 +44,6 @@ namespace Employee_Data_Management_System.Factory.Classes
                         employees.Add(employee);
                         employee = new EmployeeEntity();
                     }
-              
                 }
             }
             return employees;

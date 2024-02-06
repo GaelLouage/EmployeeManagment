@@ -22,7 +22,7 @@ namespace Employee_Data_Management_System.Helpers
             // Load content of file in a TextBlock
             if (result is not true || result is null)
             {
-                MessageBox.Show("File not supported!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("File not supported!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
             return openFileDlg;
