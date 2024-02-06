@@ -3,6 +3,7 @@ using Employee_Data_Management_System.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -11,16 +12,17 @@ namespace Employee_Data_Management_System.Factory.Classes
 {
     public class XmlFile : IFileReaderFactory
     {
-        public async Task<List<EmployeeEntity>> FileAsync(Microsoft.Win32.OpenFileDialog openFileDlg)
+        private List<EmployeeEntity> _employees = new List<EmployeeEntity>();
+
+       
+        public async Task<List<EmployeeEntity>> ReadAllAsync(Microsoft.Win32.OpenFileDialog openFileDlg)
         {
-            var employees = new List<EmployeeEntity>();
             // Create an XML reader for this file.
             using (XmlReader reader = XmlReader.Create(openFileDlg.FileName))
             {
                 var employee = new EmployeeEntity();
                 while (reader.Read())
                 {
-                    
                     // Only detect start elements.
                     if (reader.IsStartElement())
                     {
@@ -41,12 +43,23 @@ namespace Employee_Data_Management_System.Factory.Classes
                     }
                     if(!string.IsNullOrEmpty(employee.Name) && employee.Salary > 0) 
                     {
-                        employees.Add(employee);
+                        _employees.Add(employee);
                         employee = new EmployeeEntity();
                     }
                 }
             }
-            return employees;
+            return _employees;
+        }
+    
+
+        public EmployeeEntity UpdateByName(string  name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<EmployeeEntity>> DeleteByNameAsync(string name, string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

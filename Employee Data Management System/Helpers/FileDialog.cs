@@ -15,7 +15,6 @@ namespace Employee_Data_Management_System.Helpers
         {
             // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-
             // Launch OpenFileDialog by calling ShowDialog method
             bool? result = openFileDlg.ShowDialog();
             // Get the selected file name and display in a TextBox.
@@ -26,9 +25,6 @@ namespace Employee_Data_Management_System.Helpers
                 return null;
             }
             return openFileDlg;
-       
-         
         }
-
     }
 }

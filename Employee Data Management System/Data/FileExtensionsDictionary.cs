@@ -14,8 +14,8 @@ namespace Employee_Data_Management_System.Data
     {
         public static Dictionary<string, Func<OpenFileDialog, Task<List<EmployeeEntity>>>> Dictionary = new Dictionary<string, Func<OpenFileDialog, Task<List<EmployeeEntity>>>>()
          {
-             {"txt", async (opf) => await FileReaderFactory.Read(FileType.CSV).FileAsync(opf) },
-             {"xml", async (opf) => await FileReaderFactory.Read(FileType.XML).FileAsync(opf) }
+             {"txt", async (opf) => await FileReaderFactory.Read(FileType.CSV).ReadAllAsync(opf) },
+             {"xml", async (opf) => await FileReaderFactory.Read(FileType.XML).ReadAllAsync(opf) }
          };
 
     }
