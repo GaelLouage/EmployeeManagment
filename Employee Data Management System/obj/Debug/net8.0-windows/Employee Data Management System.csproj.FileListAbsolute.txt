@@ -1,0 +1,20 @@
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System_MarkupCompile.cache
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System_MarkupCompile.lref
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\bin\Debug\net8.0-windows\Employee Data Management System.exe
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\bin\Debug\net8.0-windows\Employee Data Management System.deps.json
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\bin\Debug\net8.0-windows\Employee Data Management System.runtimeconfig.json
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\bin\Debug\net8.0-windows\Employee Data Management System.dll
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\bin\Debug\net8.0-windows\Employee Data Management System.pdb
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.g.resources
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.AssemblyInfoInputs.cache
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.AssemblyInfo.cs
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.csproj.CoreCompileInputs.cache
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.dll
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\refint\Employee Data Management System.dll
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.pdb
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\Employee Data Management System.genruntimeconfig.cache
+C:\Users\louag\source\repos\Employee Data Management System\Employee Data Management System\obj\Debug\net8.0-windows\ref\Employee Data Management System.dll

@@ -1,0 +1,55 @@
+﻿<Window x:Class="Employee_Data_Management_System.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Employee_Data_Management_System"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="btnOpenCsv" Content="Open File" Grid.Column="1" Grid.Row="1" Click="btnOpenCsv_Click" />
+        <ListView x:Name="lvEmployees"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="0 10 0 10">
+
+        <ListView.View>
+
+            <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
+                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="First Name" Width="200"/>
+
+                <GridViewColumn DisplayMemberBinding="{Binding Age}" Width="200">
+                    <GridViewColumnHeader>Last Name
+                        <GridViewColumnHeader.ContextMenu>
+                            <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
+                                <MenuItem Header="Ascending" />
+                                <MenuItem Header="Descending" />
+                            </ContextMenu>
+                        </GridViewColumnHeader.ContextMenu>
+                    </GridViewColumnHeader>
+                </GridViewColumn>
+
+                <GridViewColumn DisplayMemberBinding="{Binding Department}" Header="Employee No." Width="200"/>
+                <GridViewColumn DisplayMemberBinding="{Binding Salary}" Header="Employee No." Width="200"/>
+            </GridView>
+
+        </ListView.View>
+    </ListView>
+        <Button x:Name="btnExit" Click="btnExit_Click" Grid.Column="4" Grid.Row="5" Content="Exit"/>
+    </Grid>
+</Window>
