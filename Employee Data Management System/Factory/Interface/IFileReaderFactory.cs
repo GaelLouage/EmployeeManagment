@@ -11,8 +11,7 @@ namespace Employee_Data_Management_System.Factory.Interface
     public interface IFileReaderFactory
     {
         Task<List<EmployeeEntity>> ReadAllAsync(Microsoft.Win32.OpenFileDialog openFileDlg);
-
-        EmployeeEntity UpdateByName(string name);
+        Task<List<EmployeeEntity>> UpdateByNameAsync(string name, EmployeeEntity employee, string fileName);
         Task<List<EmployeeEntity>> DeleteByNameAsync(string name, string fileName);
     }
 }

@@ -52,7 +52,7 @@ namespace Employee_Data_Management_System.Factory.Classes
         }
     
 
-        public EmployeeEntity UpdateByName(string  name)
+        public Task<List<EmployeeEntity>> UpdateByNameAsync(string name, EmployeeEntity employee, string fileName)
         {
             throw new NotImplementedException();
         }

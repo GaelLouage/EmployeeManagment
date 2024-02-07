@@ -2,6 +2,7 @@
 using Employee_Data_Management_System.Enum;
 using Employee_Data_Management_System.Extensions;
 using Employee_Data_Management_System.Factory.Classes;
+using Employee_Data_Management_System.Factory.Interface;
 using Employee_Data_Management_System.Helpers;
 using Employee_Data_Management_System.Models;
 using System.Collections.ObjectModel;
@@ -26,17 +27,11 @@ namespace Employee_Data_Management_System
     {
         private List<EmployeeEntity> _employees = new List<EmployeeEntity>();
         private string _fileExtension = string.Empty;
-        private string _fileName = string.Empty;    
+        private string _fileName = string.Empty;
         public MainWindow()
         {
             InitializeComponent();
         }
-     
-        public void LastNameCM_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         public void btnExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -60,7 +55,7 @@ namespace Employee_Data_Management_System
                 {
                     _employees = await fileExtensionsDictionary[_fileExtension](openFileDlg);
                     lvEmployees.ItemsSource = _employees;
-                    
+
                     txtAverageSalary.Text = $"Average Salary: {_employees.Average(x => x.Salary)}";
                     txtHighestSalary.Text = $"Highest Salary: {_employees.MaxBy(x => x.Salary).Salary}";
                 }
@@ -73,7 +68,7 @@ namespace Employee_Data_Management_System
         private void txtSearchEmployee_TextChanged(object sender, TextChangedEventArgs e)
         {
             lvEmployees.ItemsSource = _employees;
-            if (_employees is not null &&  _employees.Count > 0 )
+            if (_employees is not null && _employees.Count > 0)
             {
                 lvEmployees.ItemsSource = _employees.Where(x => x.Name.ToLower().Contains(txtSearchEmployee.Text.ToLower())).ToList();
             }
@@ -91,29 +86,51 @@ namespace Employee_Data_Management_System
             var selectedEmployee = lvEmployees.SelectedItem as EmployeeEntity;
         }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             if (lvEmployees.SelectedItem is EmployeeEntity)
             {
-
+                var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
+                var updateEmployee = new EmployeeEntity();
+                _employees = await PopulateEmployeesFromFileAsync(async (dir) => await dir.UpdateByNameAsync(employeeName, updateEmployee, _fileName));
+                //switch (_fileExtension)
+                //{
+                //    case "xml":
+                //        _employees = await FileReaderFactory.Read(FileType.XML).UpdateByNameAsync(employeeName, updateEmployee, _fileName);
+                //        break;
+                //    default:
+                //        _employees = await FileReaderFactory.Read(FileType.CSV).UpdateByNameAsync(employeeName, updateEmployee, _fileName);
+                //        break;
+                //};
+                lvEmployees.ItemsSource = _employees;
             }
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if(lvEmployees.SelectedItem is EmployeeEntity)
+            if (lvEmployees.SelectedItem is EmployeeEntity)
             {
-                var employeeName = (lvEmployees.SelectedItem as EmployeeEntity).Name;
-                switch (_fileExtension)
-                {
-                    case "xml":
-                        _employees  = await FileReaderFactory.Read(FileType.XML).DeleteByNameAsync(employeeName, _fileName);
-                        break;
-                    default:
-                        _employees = await FileReaderFactory.Read(FileType.CSV).DeleteByNameAsync(employeeName, _fileName);
-                        break;
-                };
+                var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
+
+                _employees = await PopulateEmployeesFromFileAsync(async (dir) => await dir.DeleteByNameAsync(employeeName, _fileName));
+
                 lvEmployees.ItemsSource = _employees;
+            }
+        }
+
+        private async Task<List<EmployeeEntity>> PopulateEmployeesFromFileAsync(Func<IFileReaderFactory, Task<List<EmployeeEntity>>> func)
+        {
+            var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
+            switch (_fileExtension)
+            {
+                case "xml":
+                    var dirXML = FileReaderFactory.Read(FileType.XML);
+
+                    return await func?.Invoke(dirXML);
+                default:
+                    var dirCSV = FileReaderFactory.Read(FileType.CSV);
+
+                    return await func?.Invoke(dirCSV);
             }
         }
     }
