@@ -5,6 +5,8 @@ using Employee_Data_Management_System.Factory.Classes;
 using Employee_Data_Management_System.Factory.Interface;
 using Employee_Data_Management_System.Helpers;
 using Employee_Data_Management_System.Models;
+using Employee_Data_Management_System.Singletons;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup.Localizer;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -26,11 +29,20 @@ namespace Employee_Data_Management_System
     public partial class MainWindow : Window
     {
         private List<EmployeeEntity> _employees = new List<EmployeeEntity>();
-        private string _fileExtension = string.Empty;
-        private string _fileName = string.Empty;
+       
         public MainWindow()
         {
             InitializeComponent();
+        }
+        public async void mainMenuGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(!string.IsNullOrEmpty(FileSingleton.Instance.FileName) && !string.IsNullOrEmpty(FileSingleton.Instance.FileExtension)) 
+            {
+
+                _employees = await PopulateEmployeesFromFileAsync(async (dir) => await dir.ReadAllAsync(FileSingleton.Instance.OpenFileDialog));
+
+                lvEmployees.ItemsSource = _employees;
+            }
         }
         public void btnExit_Click(object sender, RoutedEventArgs e)
         {
@@ -45,15 +57,16 @@ namespace Employee_Data_Management_System
                 lvEmployees.Items.Clear();
                 _employees = new List<EmployeeEntity>();
                 // Create OpenFileDialog
-                var openFileDlg = FileDialog.Open();
-                if (openFileDlg is null) return;
-                _fileName = openFileDlg.FileName;
-                var fileName = openFileDlg.FileName;
-                _fileExtension = fileName.GetFileExtension();
+                FileSingleton.Instance.OpenFileDialog = FileDialog.Open();
+                
+                if (FileSingleton.Instance.OpenFileDialog is null) return;
+                FileSingleton.Instance.FileName = FileSingleton.Instance.OpenFileDialog.FileName;
+                var fileName = FileSingleton.Instance.OpenFileDialog.FileName;
+                FileSingleton.Instance.FileExtension = fileName.GetFileExtension();
                 var fileExtensionsDictionary = FileExtensionsDictionary.Dictionary;
-                if (fileExtensionsDictionary.ContainsKey(_fileExtension))
+                if (fileExtensionsDictionary.ContainsKey(FileSingleton.Instance.FileExtension))
                 {
-                    _employees = await fileExtensionsDictionary[_fileExtension](openFileDlg);
+                    _employees = await fileExtensionsDictionary[FileSingleton.Instance.FileExtension](FileSingleton.Instance.OpenFileDialog);
                     lvEmployees.ItemsSource = _employees;
 
                     txtAverageSalary.Text = $"Average Salary: {_employees.Average(x => x.Salary)}";
@@ -90,19 +103,19 @@ namespace Employee_Data_Management_System
         {
             if (lvEmployees.SelectedItem is EmployeeEntity)
             {
-                var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
-                var updateEmployee = new EmployeeEntity();
-                _employees = await PopulateEmployeesFromFileAsync(async (dir) => await dir.UpdateByNameAsync(employeeName, updateEmployee, _fileName));
-                //switch (_fileExtension)
-                //{
-                //    case "xml":
-                //        _employees = await FileReaderFactory.Read(FileType.XML).UpdateByNameAsync(employeeName, updateEmployee, _fileName);
-                //        break;
-                //    default:
-                //        _employees = await FileReaderFactory.Read(FileType.CSV).UpdateByNameAsync(employeeName, updateEmployee, _fileName);
-                //        break;
-                //};
-                lvEmployees.ItemsSource = _employees;
+
+                var employee = (lvEmployees.SelectedItem as EmployeeEntity);
+                var updateForm = new Update(employee);
+                updateForm.Show();
+                this.Close();
+                
+                //var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
+                //// testing
+                //var updateEmployee = new EmployeeEntity();
+                //updateEmployee.Name = "Gaël";
+                //updateEmployee.Department = "IT";
+                //_employees = await PopulateEmployeesFromFileAsync(async (fileReaderFactory) => await fileReaderFactory.UpdateByNameAsync(employeeName, updateEmployee, _fileName));
+                //lvEmployees.ItemsSource = _employees;
             }
         }
 
@@ -112,7 +125,7 @@ namespace Employee_Data_Management_System
             {
                 var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
 
-                _employees = await PopulateEmployeesFromFileAsync(async (dir) => await dir.DeleteByNameAsync(employeeName, _fileName));
+                _employees = await PopulateEmployeesFromFileAsync(async (dir) => await dir.DeleteByNameAsync(employeeName, FileSingleton.Instance.FileName));
 
                 lvEmployees.ItemsSource = _employees;
             }
@@ -120,17 +133,13 @@ namespace Employee_Data_Management_System
 
         private async Task<List<EmployeeEntity>> PopulateEmployeesFromFileAsync(Func<IFileReaderFactory, Task<List<EmployeeEntity>>> func)
         {
-            var employeeName = (lvEmployees.SelectedItem as EmployeeEntity)?.Name;
-            switch (_fileExtension)
+        
+            switch (FileSingleton.Instance.FileExtension)
             {
                 case "xml":
-                    var dirXML = FileReaderFactory.Read(FileType.XML);
-
-                    return await func?.Invoke(dirXML);
+                    return await func?.Invoke(FileReaderFactory.Read(FileType.XML));
                 default:
-                    var dirCSV = FileReaderFactory.Read(FileType.CSV);
-
-                    return await func?.Invoke(dirCSV);
+                    return await func?.Invoke(FileReaderFactory.Read(FileType.CSV));
             }
         }
     }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Employee_Data_Management_System"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="mainMenuGrid" Loaded="mainMenuGrid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>

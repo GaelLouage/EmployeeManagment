@@ -20,7 +20,7 @@ namespace Employee_Data_Management_System.Models
             {
                 if(value < 18)
                 {
-                    throw new ArgumentException($"{value} is not a valid age");
+                    _age = 18;
                 }
                 _age = value;
             }
